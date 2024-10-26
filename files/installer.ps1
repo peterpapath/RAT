@@ -6,16 +6,18 @@ function random_text {
     return -join ((65..90) + (97..122) | Get-Random -Count 5 | ForEach-Object {[char]$_})
 }
 
-
-
 ##  variables
 $wd = random_text
 $path = "$env:temp/$wd"
-echo $path
+$initial_dir = %cd%
+
 
 # go to temp, make working directory
 
 mkdir $path
 cd $path
 echo "" > poc.txt
-cd c:\Users\petros\Downloads
+cd $initial_dir
+
+# deletes itself
+del installer.ps1

