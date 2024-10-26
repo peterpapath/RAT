@@ -16,7 +16,7 @@ $initial_dir = "%cd%"
 mkdir $path
 Set-Location $path
 Write-Output "" > poc.txt
-Set-Location $initial_dir
+Set-Location "$initial_dir"
 
 # deletes itself
-del installer.ps1
+rm installer.ps1
