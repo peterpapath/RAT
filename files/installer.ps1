@@ -10,8 +10,6 @@ function random_text {
 $wd = random_text
 $path = "$env:temp/$wd"
 $initial_dir = "%cd%"
-echo $initial_dir
-pause
 
 # go to temp, make working directory
 
@@ -21,4 +19,4 @@ Write-Output "" > poc.txt
 Set-Location $initial_dir
 
 # deletes itself
-del installer.ps1
+Remove-Item installer.ps1
