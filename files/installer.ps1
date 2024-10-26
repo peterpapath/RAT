@@ -19,4 +19,4 @@ Write-Output "" > poc.txt
 Set-Location $initial_dir
 
 # deletes itself
-Remove-Item installer.ps1
+del installer.ps1
