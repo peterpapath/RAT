@@ -1,4 +1,4 @@
-#builds resources for RAT
+# builds resources for RAT
 # created by petros
 
 #random string for directory

