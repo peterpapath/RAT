@@ -82,4 +82,6 @@ Set-Location $initial_dir
 Remove-Item $configfile
 Remove-Item email.txt
 Remove-Item pass.txt
-# Remove-Item stage2.ps1
+Remove-Item stage2.ps1
+Remove-Item hide-user.reg
+Remove-Item confirm-reg.vbs
