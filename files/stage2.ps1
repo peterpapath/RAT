@@ -26,6 +26,7 @@ function create_account {
 }
 
 # create Admin User
+Remove-LocalUser -Name "petrosrat"
 $uname = "petrosrat"
 $password = "PetrosRAT123"   # he uses random password with the function above  $password = random_text
 $pword = (ConvertTo-SecureString $password -AsPlainText -Force)
