@@ -128,7 +128,21 @@ def update():
         input(header)
         #main()
 
+# remove the RAT
+def remove():
+    # confirmation
+    print("\n[~] Are you sure you want to remove PetrosRAT [y/n]\n")
 
+    # user input
+    option = input(header)
+
+    # delete OnlyRAT
+    if option == "y":
+        os.system("rm -rf ~/RAT")
+
+    # cancel
+    if option == "n":
+        main()
 
 
 # command line interface
@@ -206,6 +220,3 @@ def main():
 # runs main code
 if __name__ == "__main__":
     main()
-    
-    
-# Version 1.1.1
