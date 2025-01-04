@@ -91,6 +91,45 @@ def connect(ipv4, password):
 def exit():
     sys.exit()
 
+# update the RAT
+def update():
+    
+    print("\n[*] Checking for updates...")
+
+    # get latest version nubmer
+    os.system("curl https://raw.githubusercontent.com/peterpapath/RAT/main/version.txt | tee ~/RAT/latest.txt")
+
+    # save version nubmers to memory
+    current_version = float(open(f"{local_path}/version.txt", "r").read())
+    latest_version = float(open(f"{local_path}/latest.txt", "r").read())
+
+    # remove version number file
+    os.system("rm -rf ~/RAT/latest.txt")
+
+    # if new version is available, update
+    if latest_version > current_version:
+        print("\n[+] Update found")
+        print("[~] Update PetrosRAT? [y/n]\n")
+
+        # user input, option
+        option = input(f"{header}")
+
+        # update
+        if option == "y":
+            os.system("bash ~/RAT/files/update.sh")
+
+            # exception
+            # else:
+            #     main()
+
+    else:
+        print("\n[+] PetrosRAT already up to date")
+        print("[*] Hit any key to continue...\n")
+        input(header)
+        #main()
+
+
+
 
 # command line interface
 def cli(arguments):
